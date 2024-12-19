@@ -1,0 +1,46 @@
+{
+  "name": "@uniformdev/mesh-app-pokemon",
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "next dev --port 4063",
+    "build": "next build",
+    "export": "next export",
+    "start": "next start --port 4063",
+    "lint": "next lint",
+    "predeploy": "echo 'next export is part of the build script'",
+    "test": "jest --passWithNoTests",
+    "deploy": "echo 'empty deploy script'",
+    "clean": "rimraf .next && rimraf out && rimraf .swc",
+    "edgehancer:build": "tsup --config edgehancer/tsup.config.ts",
+    "deploy-edgehancer": "npm-run-all -s edgehancer:build -p deploy-edgehancer:request",
+    "remove-edgehancer": "run-p remove-edgehancer:request",
+    "deploy-edgehancer:request": "uniform integration definition edgehancer deploy --connectorType pokemon-data-connection --archetype singlePokemon --hook request ./edgehancer/dist/request.mjs",
+    "remove-edgehancer:request": "uniform integration definition edgehancer remove --connectorType pokemon-data-connection --archetype singlePokemon --hook request"
+  },
+  "dependencies": {
+    "@uniformdev/canvas": "19.211.0",
+    "@uniformdev/design-system": "19.211.0",
+    "@uniformdev/mesh-edgehancer-sdk": "19.211.0",
+    "@uniformdev/mesh-sdk-react": "19.211.0",
+    "lodash": "^4.17.21",
+    "next": "13.5.6",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-use": "17.5.0",
+    "tsup": "^8.3.5"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "@types/react": "18.2.79",
+    "@types/react-dom": "18.2.19",
+    "autoprefixer": "^10.4.20",
+    "npm-run-all": "4.1.5",
+    "postcss": "^8.5.0",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.7.2"
+  },
+  "packageManager": "pnpm@8.15.4",
+  "engines": {
+    "node": "20.9.0"
+  }
+}
