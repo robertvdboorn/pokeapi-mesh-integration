@@ -1,0 +1,51 @@
+{
+  "name": "@uniformdev/mesh-app-pokemon",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "next dev --port 4063",
+    "build": "next build",
+    "start": "next start --port 4063",
+    "lint": "next lint",
+    "test": "jest --passWithNoTests",
+    "deploy": "echo 'empty deploy script'",
+    "clean": "rimraf .next && rimraf out && rimraf .swc",
+    "edgehancer:build": "tsup --config edgehancer/tsup.config.ts",
+    "deploy-edgehancer": "npm-run-all -s edgehancer:build -p deploy-edgehancer:request deploy-edgehancer:request-multi deploy-edgehancer:request-generic",
+    "remove-edgehancer": "run-p remove-edgehancer:request remove-edgehancer:request-multi remove-edgehancer:request-generic",
+    "deploy-edgehancer:request": "uniform integration definition edgehancer deploy --connectorType pokemon-data-connection --archetype singlePokemon --hook request ./edgehancer/dist/request.mjs",
+    "deploy-edgehancer:request-multi": "uniform integration definition edgehancer deploy --connectorType pokemon-data-connection --archetype multiplePokemon --hook request ./edgehancer/dist/request-multi.mjs",
+    "deploy-edgehancer:request-generic": "uniform integration definition edgehancer deploy --connectorType pokemon-data-connection --archetype genericResource --hook request ./edgehancer/dist/request-generic.mjs",
+    "remove-edgehancer:request": "uniform integration definition edgehancer remove --connectorType pokemon-data-connection --archetype singlePokemon --hook request",
+    "remove-edgehancer:request-multi": "uniform integration definition edgehancer remove --connectorType pokemon-data-connection --archetype multiplePokemon --hook request",
+    "remove-edgehancer:request-generic": "uniform integration definition edgehancer remove --connectorType pokemon-data-connection --archetype genericResource --hook request"
+  },
+  "dependencies": {
+    "@dnd-kit/core": "^6.3.1",
+    "@dnd-kit/sortable": "^10.0.0",
+    "@dnd-kit/utilities": "^3.2.2",
+    "@uniformdev/canvas": "20.49.4",
+    "@uniformdev/design-system": "20.49.4",
+    "@uniformdev/mesh-edgehancer-sdk": "20.49.4",
+    "@uniformdev/mesh-sdk-react": "20.49.4",
+    "next": "16.1.6",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "react-use": "17.6.0",
+    "tsup": "^8.5.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.18",
+    "@types/node": "^25.2.3",
+    "@types/react": "19.2.14",
+    "@types/react-dom": "19.2.3",
+    "@uniformdev/cli": "^20.49.4",
+    "npm-run-all": "4.1.5",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.18",
+    "typescript": "^5.9.3"
+  },
+  "packageManager": "pnpm@10.29.3",
+  "engines": {
+    "node": "20.9.0"
+  }
+}

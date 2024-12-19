@@ -1,0 +1,43 @@
+{
+  "type": "pokemon-api",
+  "displayName": "Pokemon API",
+  "logoIconUrl": "https://i.imgur.com/NJMZjPi.png",
+  "badgeIconUrl": "https://i.imgur.com/6NSFLpc.png",
+  "category": "content",
+  "baseLocationUrl": "http://localhost:4063",
+  "locations": {
+    "install": {
+      "description": [
+        "The Pokémon API (PokeAPI) provides developers with access to a comprehensive database of Pokémon-related information, including details about Pokémon species, moves, abilities, types, and more. It is designed for building engaging applications around the Pokémon universe."
+      ],
+      "informationUrl": "https://pokeapi.co/"
+    },
+    "settings": {
+      "url": "/settings"
+    },
+    "dataConnectors": [
+      {
+        "type": "pokemon-data-connection",
+        "displayName": "Pokemon API",
+        "dataSourceEditorUrl": "/data-connection-editor",
+        "dataArchetypes": {
+          "singlePokemon": {
+            "displayName": "Single Pokemon",
+            "typeEditorUrl": "/data-types/single-pokemon-type-editor",
+            "dataEditorUrl": "/data-types/single-pokemon-data-editor"
+          },
+          "multiplePokemon": {
+            "displayName": "Multiple Pokemon",
+            "typeEditorUrl": "/data-types/single-pokemon-type-editor",
+            "dataEditorUrl": "/data-types/multi-pokemon-data-editor"
+          },
+          "genericResource": {
+            "displayName": "PokeAPI Resource",
+            "typeEditorUrl": "/data-types/generic-resource-type-editor",
+            "dataEditorUrl": "/data-types/generic-resource-data-editor"
+          }
+        }
+      }
+    ]
+  }
+}
