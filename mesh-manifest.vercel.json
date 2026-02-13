@@ -31,6 +31,11 @@
             "typeEditorUrl": "/data-types/single-pokemon-type-editor",
             "dataEditorUrl": "/data-types/multi-pokemon-data-editor"
           },
+          "pokemonByName": {
+            "displayName": "Pokemon by Name",
+            "typeEditorUrl": "/data-types/pokemon-by-name-type-editor",
+            "dataEditorUrl": "/data-types/pokemon-by-name-data-editor"
+          },
           "genericResource": {
             "displayName": "PokeAPI Resource",
             "typeEditorUrl": "/data-types/generic-resource-type-editor",
