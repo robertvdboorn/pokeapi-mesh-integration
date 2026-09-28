@@ -8,7 +8,7 @@ import { IconsProvider } from '@uniformdev/design-system';
 
 import '../styles/global.css';
 
-const PAGE_WITHOUT_MESH_LOCATION = ['/_error', '/'];
+const PAGE_WITHOUT_MESH_LOCATION = ['/_error', '/', '/preview/selector'];
 
 const App = ({ Component, pageProps }: AppProps) => {
   const { pathname } = useRouter();

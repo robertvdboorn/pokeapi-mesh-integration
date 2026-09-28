@@ -12,6 +12,7 @@ A custom Mesh integration that connects the [PokeAPI](https://pokeapi.co/) with 
 - **Search** — Filter by name or Pokedex number
 - **Keyboard Navigation** — Arrow keys, Enter, and Escape support
 - **Rich Detail Panel** — Types, stats, abilities, sprites, and species info
+- **Friendly Dynamic Token Picker** — A curated [Data Resource Selector](#data-resource-selector) replaces Uniform's raw JSON tree with sprite thumbnails, type pills, and stat bars
 - **Edgehancers** — Server-side data transformation with consistent output structure
 
 ## Data Archetypes
@@ -70,6 +71,36 @@ pnpm edgehancer:build
 
 See the [pokeapi-proxy README](../pokeapi-proxy/README.md) for proxy setup and deployment.
 
+## Data Resource Selector
+
+When an author connects a parameter or field to a dynamic token, Uniform normally shows the **raw JSON tree** of the resolved data resource. Because we already know the exact shape of our edgehancer output (`transformPokemon`), we replace that tree with a curated, domain-specific picker — authors never have to read JSON.
+
+The selector (`pages/data/selector/pokemon.tsx`) is wired to the `singlePokemon`, `multiplePokemon`, and `pokemonByName` archetypes via `dataResourceSelectorUrl` in the manifest. It surfaces only meaningful fields, grouped and previewed:
+
+| Group | What you can pick | JSON pointer example |
+|-------|-------------------|----------------------|
+| Identity | Display name, API name, Pokédex number, species | `/name/formatted`, `/id` |
+| Images | Sprite thumbnails (official artwork, front/back, shiny…) rendered inline | `/sprites/other/official-artwork/front_default` |
+| Types | Color-coded, clickable type pills | `/types/0/formatted` |
+| Measurements | Height, weight, base experience | `/height` |
+| Base stats | Each stat with a value bar | `/stats/0/value` |
+| Abilities | Ability chips (hidden abilities flagged) | `/abilities/0/formatted` |
+| Moves | Move chips (capped, plus the full list) | `/moves/0/formatted` |
+
+Highlights:
+
+- **No raw JSON** — only previewable, labelled fields from the known edgehancer output.
+- **Category tabs** — quick filter by **All / Text / Numbers / Images / Lists / Yes-no / Objects**, each with a live count. Only categories that actually have fields are shown, and tabs stay in sync with the type filter and search.
+- **Type-aware filtering** — uses `metadata.allowedTypes` to show only fields whose value type (`string`/`number`/`boolean`/`object`/`array`) is valid for the target. A "Show all fields" toggle overrides it.
+- **Actionable selection summary** — the current selection shows its friendly label (e.g. "Front · shiny in Images"), an image thumbnail when relevant, the resolved value, the JSON pointer, and a one-click **Clear**.
+- **Type-themed UI** — hero artwork and stat bars are tinted by the Pokémon's primary type.
+- **Multi-aware** — when resolving the `multiplePokemon` archetype (an array), each Pokémon is rendered as its own card with index-prefixed pointers (`/0/...`, `/1/...`).
+- **Search** — fuzzy match across field labels and pointers.
+
+> The `genericResource` archetype intentionally keeps Uniform's default JSON tree, since its output shape is arbitrary (any PokeAPI endpoint) and therefore not known ahead of time.
+
+Requires `@uniformdev/mesh-sdk` **20.66.1+** (Data Resource Selector is in developer preview). See the [Uniform docs](https://docs.uniform.app/docs/integrations/mesh-integrations/locations/data-resource-selector).
+
 ## Configuration
 
 Add an external integration in the Uniform dashboard and use the following for the `Mesh App Manifest` field:
@@ -103,9 +134,10 @@ pnpm remove-edgehancer
 
 ```
 ├── components/           # React UI components
-│   ├── PokemonSelector   # Pokemon picker with search, type filters, drag-to-reorder, detail panel
-│   ├── ResourceSelector  # Generic resource picker with keyboard navigation
-│   └── ErrorCallout      # Error display component
+│   ├── PokemonSelector        # Pokemon picker with search, type filters, drag-to-reorder, detail panel
+│   ├── ResourceSelector       # Generic resource picker with keyboard navigation
+│   ├── PokemonResourceSelector# Curated Data Resource Selector UI (sprite tiles, type pills, stat bars)
+│   └── ErrorCallout           # Error display component
 ├── constants/            # PokeAPI endpoints and sprite URL helpers
 ├── edgehancer/           # Edge data transformation hooks
 │   ├── request.ts        # Single Pokemon transform
@@ -115,8 +147,9 @@ pnpm remove-edgehancer
 ├── pages/                # Next.js pages
 │   ├── settings.tsx      # Integration settings
 │   ├── data-connection-editor.tsx # Connection config
-│   └── data-types/       # Type editors and data editors
-├── utils/                # Shared utility functions
+│   ├── data-types/       # Type editors and data editors
+│   └── data/selector/    # Data Resource Selector location (friendly dynamic token picker)
+├── utils/                # Shared utility functions (format, pokemonSelector field model)
 └── styles/               # Global CSS (Tailwind v4)
 ```
 
@@ -125,6 +158,6 @@ pnpm remove-edgehancer
 - Next.js 16 with Turbopack
 - React 19
 - Tailwind CSS v4
-- Uniform Mesh SDK (`@uniformdev/mesh-sdk-react`, `@uniformdev/mesh-edgehancer-sdk`)
+- Uniform Mesh SDK 20.80.1 (`@uniformdev/mesh-sdk-react`, `@uniformdev/mesh-edgehancer-sdk`)
 - TypeScript 5.9
 - tsup (edgehancer bundling)

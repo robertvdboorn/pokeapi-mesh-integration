@@ -24,17 +24,20 @@
           "singlePokemon": {
             "displayName": "Single Pokemon",
             "typeEditorUrl": "/data-types/single-pokemon-type-editor",
-            "dataEditorUrl": "/data-types/single-pokemon-data-editor"
+            "dataEditorUrl": "/data-types/single-pokemon-data-editor",
+            "dataResourceSelectorUrl": "/data/selector/pokemon"
           },
           "multiplePokemon": {
             "displayName": "Multiple Pokemon",
             "typeEditorUrl": "/data-types/single-pokemon-type-editor",
-            "dataEditorUrl": "/data-types/multi-pokemon-data-editor"
+            "dataEditorUrl": "/data-types/multi-pokemon-data-editor",
+            "dataResourceSelectorUrl": "/data/selector/pokemon"
           },
           "pokemonByName": {
             "displayName": "Pokemon by Name",
             "typeEditorUrl": "/data-types/pokemon-by-name-type-editor",
-            "dataEditorUrl": "/data-types/pokemon-by-name-data-editor"
+            "dataEditorUrl": "/data-types/pokemon-by-name-data-editor",
+            "dataResourceSelectorUrl": "/data/selector/pokemon"
           },
           "genericResource": {
             "displayName": "PokeAPI Resource",
